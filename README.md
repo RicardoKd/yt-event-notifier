@@ -1,4 +1,4 @@
-# yt-event-notifier
+# YouTube Event Notifier
 
 A self-hosted Telegram bot that helps YouTube channel owners notify their Telegram groups and channels about upcoming live streams. Admins configure a weekly stream schedule inside Telegram. The bot checks YouTube for the corresponding broadcast (creating it if needed), sends a reminder before it starts, and a "now live" alert when it goes live.
 
