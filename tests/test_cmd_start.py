@@ -54,9 +54,9 @@ async def test_start_reply_contains_setup_instructions():
         await cmd_start(update, context)
 
     reply_text = update.message.reply_text.call_args[0][0]
-    assert "/settimezone" in reply_text
-    assert "/connectyoutube" in reply_text
-    assert "/addslot" in reply_text
+    reply_markup = update.message.reply_text.call_args[1]["reply_markup"]
+    assert "configure the bot" in reply_text
+    assert reply_markup.inline_keyboard[0][0].text == "Manage configuration"
 
 
 @pytest.mark.asyncio
