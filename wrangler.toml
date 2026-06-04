@@ -1,0 +1,23 @@
+name = "yt-event-notifier-backend"
+main = "backend/main.py"
+compatibility_date = "2024-05-02"
+compatibility_flags = ["python_workers"]
+
+# Python Workers configuration
+[python]
+# You can specify a requirements.txt if needed, but wrangler will try to infer from pyproject.toml
+# requirements_path = "requirements.txt"
+
+[[d1_databases]]
+binding = "yt_event_notifier_db"
+database_name = "yt-event-notifier-db"
+database_id = "3e436fbb-c046-4933-93ef-3d7cc0674d06"
+
+[vars]
+# Add your environment variables here or in Cloudflare Dashboard
+# TELEGRAM_BOT_TOKEN = "..."
+# GOOGLE_CLIENT_ID = "..."
+# GOOGLE_CLIENT_SECRET = "..."
+
+[triggers]
+crons = ["*/15 * * * *"]
