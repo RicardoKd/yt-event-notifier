@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from src.bot.commands import cmd_remove_slot
+from backend.bot.commands import cmd_remove_slot
 
 
 def make_update(chat_id: int = 123456) -> MagicMock:
@@ -31,9 +31,9 @@ async def test_remove_slot_success():
     context = make_context(["42"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.remove_slot", new=AsyncMock()) as mock_remove,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.remove_slot", new=AsyncMock()) as mock_remove,
     ):
         await cmd_remove_slot(update, context)
 
@@ -48,9 +48,9 @@ async def test_remove_slot_non_admin():
     context = make_context(["1"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=False)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.remove_slot", new=AsyncMock()) as mock_remove,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=False)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.remove_slot", new=AsyncMock()) as mock_remove,
     ):
         await cmd_remove_slot(update, context)
 
@@ -64,9 +64,9 @@ async def test_remove_slot_no_args():
     context = make_context([])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.remove_slot", new=AsyncMock()) as mock_remove,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.remove_slot", new=AsyncMock()) as mock_remove,
     ):
         await cmd_remove_slot(update, context)
 
@@ -81,9 +81,9 @@ async def test_remove_slot_args_none():
     context = make_context(None)
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.remove_slot", new=AsyncMock()) as mock_remove,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.remove_slot", new=AsyncMock()) as mock_remove,
     ):
         await cmd_remove_slot(update, context)
 
@@ -98,9 +98,9 @@ async def test_remove_slot_too_many_args():
     context = make_context(["1", "extra"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.remove_slot", new=AsyncMock()) as mock_remove,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.remove_slot", new=AsyncMock()) as mock_remove,
     ):
         await cmd_remove_slot(update, context)
 
@@ -115,9 +115,9 @@ async def test_remove_slot_non_integer_id():
     context = make_context(["abc"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.remove_slot", new=AsyncMock()) as mock_remove,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.remove_slot", new=AsyncMock()) as mock_remove,
     ):
         await cmd_remove_slot(update, context)
 
@@ -132,9 +132,9 @@ async def test_remove_slot_float_id():
     context = make_context(["1.5"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.remove_slot", new=AsyncMock()) as mock_remove,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.remove_slot", new=AsyncMock()) as mock_remove,
     ):
         await cmd_remove_slot(update, context)
 
@@ -149,9 +149,9 @@ async def test_remove_slot_zero_id():
     context = make_context(["0"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.remove_slot", new=AsyncMock()) as mock_remove,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.remove_slot", new=AsyncMock()) as mock_remove,
     ):
         await cmd_remove_slot(update, context)
 
@@ -166,9 +166,9 @@ async def test_remove_slot_negative_id():
     context = make_context(["-1"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.remove_slot", new=AsyncMock()) as mock_remove,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.remove_slot", new=AsyncMock()) as mock_remove,
     ):
         await cmd_remove_slot(update, context)
 
@@ -183,9 +183,9 @@ async def test_remove_slot_db_error():
     context = make_context(["1"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.remove_slot", new=AsyncMock(side_effect=RuntimeError("db fail"))) as mock_remove,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.remove_slot", new=AsyncMock(side_effect=RuntimeError("db fail"))) as mock_remove,
     ):
         await cmd_remove_slot(update, context)
 
@@ -200,9 +200,9 @@ async def test_remove_slot_minimum_valid_id():
     context = make_context(["1"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.remove_slot", new=AsyncMock()) as mock_remove,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.remove_slot", new=AsyncMock()) as mock_remove,
     ):
         await cmd_remove_slot(update, context)
 
@@ -217,9 +217,9 @@ async def test_remove_slot_large_id():
     context = make_context(["999999"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.remove_slot", new=AsyncMock()) as mock_remove,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.remove_slot", new=AsyncMock()) as mock_remove,
     ):
         await cmd_remove_slot(update, context)
 

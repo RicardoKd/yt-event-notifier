@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import AsyncMock, MagicMock
 
-from src.bot.commands import cmd_help
+from backend.bot.commands import cmd_help
 
 
 def make_update(chat_id: int = 123456) -> MagicMock:
@@ -18,15 +18,8 @@ def make_context(args: list[str]) -> MagicMock:
     return context
 
 
-def make_db_context_mock():
-    cm = MagicMock()
-    cm.__aenter__ = AsyncMock(return_value=None)
-    cm.__aexit__ = AsyncMock(return_value=False)
-    return cm
-
-
 @pytest.mark.asyncio
-async def test_help_displays_all_commands():
+async def test_help_displays_webapp_button():
     update = make_update()
     context = make_context([])
 
@@ -34,14 +27,11 @@ async def test_help_displays_all_commands():
 
     update.message.reply_text.assert_awaited_once()
     reply_text = update.message.reply_text.call_args[0][0]
-    for cmd in [
-        "/start", "/help", "/connectyoutube", "/disconnectyoutube",
-        "/settimezone", "/setautocreate", "/setreminder", "/setcheckwindow",
-        "/addslot", "/removeslot", "/settemplate", "/setmessage",
-        "/listslots", "/streams", "/status", "/check",
-        "/setbroadcastprivacy", "/setbroadcastdescription",
-    ]:
-        assert cmd in reply_text, f"Expected '{cmd}' in help output"
+    reply_markup = update.message.reply_text.call_args[1].get("reply_markup")
+    
+    assert "Click the button below" in reply_text
+    assert reply_markup is not None
+    assert reply_markup.inline_keyboard[0][0].text == "Manage configuration"
 
 
 @pytest.mark.asyncio
@@ -54,7 +44,7 @@ async def test_help_available_to_non_admin():
 
     update.message.reply_text.assert_awaited_once()
     reply_text = update.message.reply_text.call_args[0][0]
-    assert "/help" in reply_text
+    assert "Click the button below" in reply_text
 
 
 @pytest.mark.asyncio
@@ -66,7 +56,7 @@ async def test_help_ignores_extra_args():
 
     update.message.reply_text.assert_awaited_once()
     reply_text = update.message.reply_text.call_args[0][0]
-    assert "/help" in reply_text
+    assert "Click the button below" in reply_text
 
 
 @pytest.mark.asyncio
@@ -78,18 +68,7 @@ async def test_help_with_none_args():
 
     update.message.reply_text.assert_awaited_once()
     reply_text = update.message.reply_text.call_args[0][0]
-    assert "/help" in reply_text
-
-
-@pytest.mark.asyncio
-async def test_help_reply_contains_admin_label():
-    update = make_update()
-    context = make_context([])
-
-    await cmd_help(update, context)
-
-    reply_text = update.message.reply_text.call_args[0][0]
-    assert "admin" in reply_text.lower()
+    assert "Click the button below" in reply_text
 
 
 @pytest.mark.asyncio

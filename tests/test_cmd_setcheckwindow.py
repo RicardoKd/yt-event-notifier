@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from src.bot.commands import cmd_set_check_window
+from backend.bot.commands import cmd_set_check_window
 
 
 def make_update(chat_id: int = 123456) -> MagicMock:
@@ -31,10 +31,10 @@ async def test_set_check_window_success_integer():
     context = make_context(["24"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_check_window(update, context)
 
@@ -51,10 +51,10 @@ async def test_set_check_window_success_float():
     context = make_context(["12.5"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_check_window(update, context)
 
@@ -70,10 +70,10 @@ async def test_set_check_window_minimum_valid():
     context = make_context(["0.1"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_check_window(update, context)
 
@@ -89,10 +89,10 @@ async def test_set_check_window_large_value():
     context = make_context(["168"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_check_window(update, context)
 
@@ -108,10 +108,10 @@ async def test_set_check_window_non_admin():
     context = make_context(["24"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=False)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=False)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_check_window(update, context)
 
@@ -125,10 +125,10 @@ async def test_set_check_window_no_args():
     context = make_context([])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_check_window(update, context)
 
@@ -143,10 +143,10 @@ async def test_set_check_window_args_none():
     context = make_context(None)
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_check_window(update, context)
 
@@ -161,10 +161,10 @@ async def test_set_check_window_too_many_args():
     context = make_context(["24", "extra"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_check_window(update, context)
 
@@ -179,10 +179,10 @@ async def test_set_check_window_non_numeric_arg():
     context = make_context(["abc"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_check_window(update, context)
 
@@ -197,10 +197,10 @@ async def test_set_check_window_zero_hours():
     context = make_context(["0"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_check_window(update, context)
 
@@ -215,10 +215,10 @@ async def test_set_check_window_negative_hours():
     context = make_context(["-5"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_check_window(update, context)
 
@@ -233,10 +233,10 @@ async def test_set_check_window_whitespace_arg():
     context = make_context(["  "])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_check_window(update, context)
 
@@ -251,11 +251,11 @@ async def test_set_check_window_db_error():
     context = make_context(["24"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock(side_effect=RuntimeError("db fail"))),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
-        patch("src.bot.commands.logger") as mock_logger,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock(side_effect=RuntimeError("db fail"))),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands.logger") as mock_logger,
     ):
         await cmd_set_check_window(update, context)
 

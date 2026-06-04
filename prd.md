@@ -118,27 +118,27 @@ All alerts include a timestamp, error type, and short description.
 
 ### 6.1 Stack
 
-| Layer              | Technology                                                               |
-| ------------------ | ------------------------------------------------------------------------ |
-| Language           | Python 3.12                                                              |
-| Telegram framework | `python-telegram-bot` v21+                                               |
-| YouTube API        | `google-api-python-client` (`liveBroadcasts`, `liveStreams`)             |
-| Google Auth        | `google-auth-oauthlib`                                                   |
-| Database           | SQLite via `aiosqlite`                                                   |
-| DB persistence     | AWS S3 (SQLite file downloaded at start of invocation, uploaded on exit) |
-| Deployment         | AWS Lambda (single function)                                             |
-| Scheduling         | AWS EventBridge (two cron rules — see §6.4)                              |
-| Webhook ingress    | AWS API Gateway (HTTP API)                                               |
+| Layer              | Technology                                                   |
+| ------------------ | ------------------------------------------------------------ |
+| Language           | Python 3.12                                                   |
+| Web Framework      | FastAPI                                                      |
+| Telegram framework | `python-telegram-bot` v21+                                   |
+| YouTube API        | `google-api-python-client` (`liveBroadcasts`, `liveStreams`) |
+| Google Auth        | `google-auth-oauthlib`                                       |
+| Database           | Cloudflare D1 (SQLite)                                       |
+| Deployment         | Cloudflare Workers (Backend), Cloudflare Pages (Frontend)    |
+| Scheduling         | Cloudflare Cron Triggers                                     |
+| Webhook ingress    | Cloudflare Workers                                           |
 
-### 6.2 Lambda Entry Points
+### 6.2 Cloudflare Worker Entry Points
 
-One Lambda function handles three event sources, distinguished by event shape:
+The Cloudflare Worker handles API requests, OAuth callbacks, and scheduled polling:
 
 | Source                         | Detection                                                        | Handler                                                                                                                                             |
 | ------------------------------ | ---------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
-| API Gateway — Telegram webhook | `"httpMethod" in event` and `event["path"] != "/oauth/callback"` | Validate `X-Telegram-Bot-Api-Secret-Token` header; reject with HTTP 403 if missing or invalid. Parse Telegram update; dispatch to command handlers. |
-| API Gateway — OAuth callback   | `event["path"] == "/oauth/callback"`                             | Exchange Google auth code for tokens; store; notify group                                                                                           |
-| EventBridge cron               | `event.get("source") == "aws.events"`                            | Run YouTube poll loop (§6.4)                                                                                                                        |
+| API / Telegram webhook         | `fetch` event                                                     | Dispatches to FastAPI routes. Telegram webhooks are received at `/telegram/webhook`.                                                                |
+| OAuth callback                 | `fetch` event at `/oauth/callback`                               | Exchange Google auth code for tokens; store; notify group.                                                                                          |
+| Cron trigger                   | `scheduled` event                                                 | Run YouTube poll loop.                                                                                                                             |
 
 ### 6.3 Database Schema
 

@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from src.bot.commands import cmd_streams
+from backend.bot.commands import cmd_streams
 
 
 def make_update(chat_id: int = 123456) -> MagicMock:
@@ -69,9 +69,9 @@ async def test_streams_happy_path():
     stream = make_stream()
 
     with (
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.get_group", new=AsyncMock(return_value=make_group())) as mock_get_group,
-        patch("src.bot.commands.list_active_streams", new=AsyncMock(return_value=[stream])) as mock_list,
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.get_group", new=AsyncMock(return_value=make_group())) as mock_get_group,
+        patch("backend.bot.commands.list_active_streams", new=AsyncMock(return_value=[stream])) as mock_list,
     ):
         await cmd_streams(update, context)
 
@@ -88,9 +88,9 @@ async def test_streams_no_streams():
     context = make_context([])
 
     with (
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.get_group", new=AsyncMock(return_value=make_group())),
-        patch("src.bot.commands.list_active_streams", new=AsyncMock(return_value=[])) as mock_list,
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.get_group", new=AsyncMock(return_value=make_group())),
+        patch("backend.bot.commands.list_active_streams", new=AsyncMock(return_value=[])) as mock_list,
     ):
         await cmd_streams(update, context)
 
@@ -105,9 +105,9 @@ async def test_streams_db_error():
     context = make_context([])
 
     with (
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.get_group", new=AsyncMock(side_effect=RuntimeError("db fail"))) as mock_get_group,
-        patch("src.bot.commands.list_active_streams", new=AsyncMock()) as mock_list,
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.get_group", new=AsyncMock(side_effect=RuntimeError("db fail"))) as mock_get_group,
+        patch("backend.bot.commands.list_active_streams", new=AsyncMock()) as mock_list,
     ):
         await cmd_streams(update, context)
 
@@ -125,9 +125,9 @@ async def test_streams_no_admin_required():
     stream = make_stream()
 
     with (
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.get_group", new=AsyncMock(return_value=make_group())),
-        patch("src.bot.commands.list_active_streams", new=AsyncMock(return_value=[stream])),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.get_group", new=AsyncMock(return_value=make_group())),
+        patch("backend.bot.commands.list_active_streams", new=AsyncMock(return_value=[stream])),
     ):
         await cmd_streams(update, context)
 
@@ -144,9 +144,9 @@ async def test_streams_group_none_falls_back_to_utc():
     stream = make_stream(scheduled_start=1700000000)
 
     with (
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.get_group", new=AsyncMock(return_value=None)),
-        patch("src.bot.commands.list_active_streams", new=AsyncMock(return_value=[stream])),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.get_group", new=AsyncMock(return_value=None)),
+        patch("backend.bot.commands.list_active_streams", new=AsyncMock(return_value=[stream])),
     ):
         await cmd_streams(update, context)
 
@@ -163,9 +163,9 @@ async def test_streams_multiple_streams():
     stream2 = make_stream(broadcast_id="abc2", yt_url="https://youtube.com/watch?v=abc2")
 
     with (
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.get_group", new=AsyncMock(return_value=make_group())),
-        patch("src.bot.commands.list_active_streams", new=AsyncMock(return_value=[stream1, stream2])),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.get_group", new=AsyncMock(return_value=make_group())),
+        patch("backend.bot.commands.list_active_streams", new=AsyncMock(return_value=[stream1, stream2])),
     ):
         await cmd_streams(update, context)
 
@@ -182,9 +182,9 @@ async def test_streams_live_stream_shown():
     stream = make_stream(status="live")
 
     with (
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.get_group", new=AsyncMock(return_value=make_group())),
-        patch("src.bot.commands.list_active_streams", new=AsyncMock(return_value=[stream])),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.get_group", new=AsyncMock(return_value=make_group())),
+        patch("backend.bot.commands.list_active_streams", new=AsyncMock(return_value=[stream])),
     ):
         await cmd_streams(update, context)
 
@@ -202,9 +202,9 @@ async def test_streams_uses_group_timezone():
     stream = make_stream(scheduled_start=0)
 
     with (
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.get_group", new=AsyncMock(return_value=make_group(timezone="America/New_York"))),
-        patch("src.bot.commands.list_active_streams", new=AsyncMock(return_value=[stream])),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.get_group", new=AsyncMock(return_value=make_group(timezone="America/New_York"))),
+        patch("backend.bot.commands.list_active_streams", new=AsyncMock(return_value=[stream])),
     ):
         await cmd_streams(update, context)
 
@@ -221,9 +221,9 @@ async def test_streams_reply_once_per_call():
     stream = make_stream()
 
     with (
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.get_group", new=AsyncMock(return_value=make_group())),
-        patch("src.bot.commands.list_active_streams", new=AsyncMock(return_value=[stream])),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.get_group", new=AsyncMock(return_value=make_group())),
+        patch("backend.bot.commands.list_active_streams", new=AsyncMock(return_value=[stream])),
     ):
         await cmd_streams(update, context)
 

@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from src.bot.commands import cmd_start
+from backend.bot.commands import cmd_start
 
 
 def make_update(chat_id: int = 123456) -> MagicMock:
@@ -32,8 +32,8 @@ async def test_start_success():
     context = make_context([])
 
     with (
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
     ):
         await cmd_start(update, context)
 
@@ -48,15 +48,15 @@ async def test_start_reply_contains_setup_instructions():
     context = make_context([])
 
     with (
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
     ):
         await cmd_start(update, context)
 
     reply_text = update.message.reply_text.call_args[0][0]
-    assert "/settimezone" in reply_text
-    assert "/connectyoutube" in reply_text
-    assert "/addslot" in reply_text
+    reply_markup = update.message.reply_text.call_args[1]["reply_markup"]
+    assert "configure the bot" in reply_text
+    assert reply_markup.inline_keyboard[0][0].text == "Manage configuration"
 
 
 @pytest.mark.asyncio
@@ -66,9 +66,9 @@ async def test_start_no_admin_guard():
     context = make_context([])
 
     with (
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=False)) as mock_admin,
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=False)) as mock_admin,
     ):
         await cmd_start(update, context)
 
@@ -85,8 +85,8 @@ async def test_start_ignores_extra_args():
     context = make_context(["unexpected", "args"])
 
     with (
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
     ):
         await cmd_start(update, context)
 
@@ -102,8 +102,8 @@ async def test_start_args_none():
     context = make_context(None)
 
     with (
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
     ):
         await cmd_start(update, context)
 
@@ -119,8 +119,8 @@ async def test_start_uses_chat_id():
     context = make_context([])
 
     with (
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
     ):
         await cmd_start(update, context)
 
@@ -134,8 +134,8 @@ async def test_start_db_error():
     context = make_context([])
 
     with (
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock(side_effect=RuntimeError("db fail"))) as mock_upsert,
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock(side_effect=RuntimeError("db fail"))) as mock_upsert,
     ):
         await cmd_start(update, context)
 

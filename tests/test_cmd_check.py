@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from src.bot.commands import cmd_check
+from backend.bot.commands import cmd_check
 
 CHAT_ID = 123456
 
@@ -26,8 +26,8 @@ async def test_check_success():
     context = make_context()
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.run_polling_cycle", new=AsyncMock()) as mock_poll,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.run_polling_cycle", new=AsyncMock()) as mock_poll,
     ):
         await cmd_check(update, context)
 
@@ -43,8 +43,8 @@ async def test_check_non_admin():
     context = make_context()
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=False)),
-        patch("src.bot.commands.run_polling_cycle", new=AsyncMock()) as mock_poll,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=False)),
+        patch("backend.bot.commands.run_polling_cycle", new=AsyncMock()) as mock_poll,
     ):
         await cmd_check(update, context)
 
@@ -58,8 +58,8 @@ async def test_check_polling_error():
     context = make_context()
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.run_polling_cycle", new=AsyncMock(side_effect=RuntimeError("poll fail"))) as mock_poll,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.run_polling_cycle", new=AsyncMock(side_effect=RuntimeError("poll fail"))) as mock_poll,
     ):
         await cmd_check(update, context)
 
@@ -74,8 +74,8 @@ async def test_check_with_extra_args():
     context = make_context(["extra", "args"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.run_polling_cycle", new=AsyncMock()) as mock_poll,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.run_polling_cycle", new=AsyncMock()) as mock_poll,
     ):
         await cmd_check(update, context)
 
@@ -88,8 +88,8 @@ async def test_check_with_none_args():
     context = make_context(None)
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.run_polling_cycle", new=AsyncMock()) as mock_poll,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.run_polling_cycle", new=AsyncMock()) as mock_poll,
     ):
         await cmd_check(update, context)
 

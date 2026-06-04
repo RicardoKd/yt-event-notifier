@@ -8,15 +8,15 @@ from dateutil.relativedelta import relativedelta
 from google.oauth2.credentials import Credentials
 from telegram import Bot
 
-from src.db.client import db_context
-from src.db.queries import (
+from backend.db.client import db_context
+from backend.db.queries import (
     list_active_streams,
     list_groups,
     list_slots,
     update_stream,
     upsert_stream,
 )
-from src.youtube.client import YouTubeClient
+from backend.youtube.client import YouTubeClient
 
 logger = logging.getLogger(__name__)
 

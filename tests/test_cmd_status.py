@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from src.bot.commands import cmd_status
+from backend.bot.commands import cmd_status
 
 
 def make_update(chat_id: int = 123456) -> MagicMock:
@@ -53,9 +53,9 @@ async def test_status_youtube_connected():
     group = make_group(yt_channel_id="UC123abc", yt_channel_name="My YT Channel")
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.get_group", new=AsyncMock(return_value=group)) as mock_get_group,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.get_group", new=AsyncMock(return_value=group)) as mock_get_group,
     ):
         await cmd_status(update, context)
 
@@ -74,9 +74,9 @@ async def test_status_youtube_not_connected():
     group = make_group()
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.get_group", new=AsyncMock(return_value=group)) as mock_get_group,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.get_group", new=AsyncMock(return_value=group)) as mock_get_group,
     ):
         await cmd_status(update, context)
 
@@ -93,9 +93,9 @@ async def test_status_non_admin():
     context = make_context([])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=False)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.get_group", new=AsyncMock()) as mock_get_group,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=False)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.get_group", new=AsyncMock()) as mock_get_group,
     ):
         await cmd_status(update, context)
 
@@ -109,9 +109,9 @@ async def test_status_group_not_registered():
     context = make_context([])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.get_group", new=AsyncMock(return_value=None)) as mock_get_group,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.get_group", new=AsyncMock(return_value=None)) as mock_get_group,
     ):
         await cmd_status(update, context)
 
@@ -126,9 +126,9 @@ async def test_status_db_error():
     context = make_context([])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.get_group", new=AsyncMock(side_effect=RuntimeError("db fail"))) as mock_get_group,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.get_group", new=AsyncMock(side_effect=RuntimeError("db fail"))) as mock_get_group,
     ):
         await cmd_status(update, context)
 
@@ -144,9 +144,9 @@ async def test_status_extra_args_ignored():
     group = make_group(yt_channel_id="UC456")
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.get_group", new=AsyncMock(return_value=group)) as mock_get_group,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.get_group", new=AsyncMock(return_value=group)) as mock_get_group,
     ):
         await cmd_status(update, context)
 
@@ -162,9 +162,9 @@ async def test_status_args_none():
     group = make_group()
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.get_group", new=AsyncMock(return_value=group)) as mock_get_group,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.get_group", new=AsyncMock(return_value=group)) as mock_get_group,
     ):
         await cmd_status(update, context)
 

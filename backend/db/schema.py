@@ -1,4 +1,5 @@
-import aiosqlite
+# This file is kept for reference or local development if needed, 
+# but the schema for Cloudflare D1 is managed via backend/db/schema.sql
 
 _CREATE_GROUPS = """
 CREATE TABLE IF NOT EXISTS groups (
@@ -42,19 +43,3 @@ CREATE TABLE IF NOT EXISTS streams (
     live_sent       BOOLEAN NOT NULL DEFAULT 0
 )
 """
-
-
-async def init_schema(conn: aiosqlite.Connection) -> None:
-    await conn.execute("PRAGMA foreign_keys = ON")
-    await conn.execute(_CREATE_GROUPS)
-    await conn.execute(_CREATE_SLOTS)
-    await conn.execute(_CREATE_STREAMS)
-    # Migrations for existing databases
-    for sql in [
-        "ALTER TABLE groups ADD COLUMN broadcast_made_for_kids BOOLEAN NOT NULL DEFAULT 0",
-    ]:
-        try:
-            await conn.execute(sql)
-        except Exception:
-            pass  # Column already exists
-    await conn.commit()

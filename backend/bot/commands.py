@@ -1,12 +1,13 @@
+import os
 import logging
 from datetime import datetime
 from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 
-from telegram import Update
+from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 from telegram.ext import Application, CommandHandler, ContextTypes
 
-from src.db.client import db_context
-from src.db.queries import (
+from backend.db.client import db_context
+from backend.db.queries import (
     upsert_group,
     add_slot,
     list_slots,
@@ -16,8 +17,8 @@ from src.db.queries import (
     update_slot,
     list_active_streams,
 )
-from src.youtube.oauth import build_auth_url
-from src.engine import run_polling_cycle
+from backend.youtube.oauth import build_auth_url
+from backend.engine import run_polling_cycle
 
 logger = logging.getLogger(__name__)
 
@@ -59,51 +60,69 @@ async def _require_admin(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
 
 
 async def cmd_start(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    assert update.message and update.effective_chat
-    chat_id = update.effective_chat.id
+    logger.info("Handling /start command")
     try:
+        assert update.message and update.effective_chat
+        chat_id = update.effective_chat.id
         async with db_context():
             await upsert_group(chat_id)
+            
+        webapp_url = os.environ.get("WEBAPP_URL")
+        if not webapp_url:
+            webapp_url = "http://localhost:5173"
+            
+        url = f"{webapp_url}?group_id={chat_id}"
+        logger.info(f"Generated WebApp URL for /start: {url}")
+        
+        keyboard = [
+            [InlineKeyboardButton("Manage configuration", web_app=WebAppInfo(url=url))]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+
         await update.message.reply_text(
             "Welcome to yt-event-notifier!\n\n"
             "This bot notifies your group about upcoming YouTube live streams.\n\n"
-            "Setup steps:\n"
-            "1. Set your timezone: /settimezone <tz>  (e.g. /settimezone Europe/London)\n"
-            "2. Connect your YouTube channel: /connectyoutube\n"
-            "3. Add a weekly stream slot: /addslot <day> <HH:MM> <title>\n"
-            "4. Configure reminders and more — see /help for all commands."
+            "Click the button below to configure the bot.",
+            reply_markup=reply_markup
         )
-    except Exception:
-        logger.exception("Failed to register group")
-        await update.message.reply_text(
-            "Error registering this group. Please try again."
-        )
+        logger.info("/start command handled successfully")
+    except Exception as e:
+        logger.exception(f"Error in cmd_start: {e}")
+        if update.message:
+            await update.message.reply_text(f"Error registering this group: {e}")
 
 
 async def cmd_help(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    assert update.message
-    await update.message.reply_text(
-        "Available commands:\n\n"
-        "/start — Register the bot and display setup instructions\n"
-        "/help — Display all available commands\n"
-        "/connectyoutube — Link a YouTube channel to this group (admin)\n"
-        "/disconnectyoutube — Remove the YouTube channel connection (admin)\n"
-        "/settimezone <tz> — Set the group's timezone, e.g. Europe/London (admin)\n"
-        "/setautocreate <on|off> — Toggle automatic YouTube stream creation (admin)\n"
-        "/setreminder <hours> — Set the reminder window before stream start (admin)\n"
-        "/setcheckwindow <hours> — Set how many hours before a slot to check/create the stream (admin)\n"
-        "/addslot <day> <HH:MM> [title_template] — Add a weekly recurring slot (admin)\n"
-        "/removeslot <slot_id> — Remove a scheduled slot by ID (admin)\n"
-        "/settemplate <slot_id> <template> — Set the stream title template for a slot (admin)\n"
-        "/setmessage <slot_id> <message> — Set the custom notification message for a slot (admin)\n"
-        "/listslots — List all configured slots (admin)\n"
-        "/streams — List upcoming tracked streams\n"
-        "/status — Show bot health and YouTube connection status (admin)\n"
-        "/check — Trigger an immediate poll (admin)\n"
-        "/setbroadcastprivacy <public|unlisted|private> — Set auto-created broadcast privacy (admin)\n"
-        "/setbroadcastdescription <text> — Set auto-created broadcast description (admin)\n"
-        "/setbroadcastmadeforkids <yes|no> — Set whether auto-created broadcasts are made for kids (admin)"
-    )
+    logger.info("Handling /help command")
+    try:
+        assert update.message and update.effective_chat
+        chat_id = update.effective_chat.id
+        
+        webapp_url = os.environ.get("WEBAPP_URL")
+        if not webapp_url:
+            logger.warning("WEBAPP_URL not set, defaulting to localhost")
+            webapp_url = "http://localhost:5173"
+            
+        url = f"{webapp_url}?group_id={chat_id}"
+        logger.info(f"Generated WebApp URL: {url}")
+        
+        keyboard = [
+            [InlineKeyboardButton("Manage configuration", web_app=WebAppInfo(url=url))]
+        ]
+        reply_markup = InlineKeyboardMarkup(keyboard)
+
+        await update.message.reply_text(
+            "Click the button below to manage the bot's configuration:",
+            reply_markup=reply_markup
+        )
+        logger.info("/help command handled successfully")
+    except Exception as e:
+        logger.exception(f"Error in cmd_help: {e}")
+        if update.message:
+            try:
+                await update.message.reply_text(f"An error occurred: {str(e)}")
+            except:
+                pass
 
 
 async def cmd_connect_youtube(
