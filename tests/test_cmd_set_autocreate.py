@@ -32,10 +32,10 @@ async def test_set_autocreate_on_success():
     context = make_context(["on"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_autocreate(update, context)
 
@@ -51,10 +51,10 @@ async def test_set_autocreate_off_success():
     context = make_context(["off"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_autocreate(update, context)
 
@@ -70,10 +70,10 @@ async def test_set_autocreate_case_insensitive_ON():
     context = make_context(["ON"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_autocreate(update, context)
 
@@ -89,10 +89,10 @@ async def test_set_autocreate_case_insensitive_Off():
     context = make_context(["Off"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_autocreate(update, context)
 
@@ -108,10 +108,10 @@ async def test_set_autocreate_non_admin():
     context = make_context(["on"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=False)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=False)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_autocreate(update, context)
 
@@ -125,10 +125,10 @@ async def test_set_autocreate_no_args():
     context = make_context([])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_autocreate(update, context)
 
@@ -143,10 +143,10 @@ async def test_set_autocreate_invalid_arg():
     context = make_context(["yes"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_autocreate(update, context)
 
@@ -161,10 +161,10 @@ async def test_set_autocreate_too_many_args():
     context = make_context(["on", "extra"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_autocreate(update, context)
 
@@ -179,10 +179,10 @@ async def test_set_autocreate_args_none():
     context = make_context(None)
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_autocreate(update, context)
 
@@ -197,10 +197,10 @@ async def test_set_autocreate_db_error():
     context = make_context(["on"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock(side_effect=RuntimeError("db fail"))),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock(side_effect=RuntimeError("db fail"))),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_autocreate(update, context)
 

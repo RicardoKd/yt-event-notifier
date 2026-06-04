@@ -31,10 +31,10 @@ async def test_setbroadcastmadeforkids_no_success():
     context = make_context(["no"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_setbroadcastmadeforkids(update, context)
 
@@ -50,10 +50,10 @@ async def test_setbroadcastmadeforkids_yes_success():
     context = make_context(["yes"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_setbroadcastmadeforkids(update, context)
 
@@ -69,10 +69,10 @@ async def test_setbroadcastmadeforkids_case_insensitive_NO():
     context = make_context(["NO"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_setbroadcastmadeforkids(update, context)
 
@@ -85,10 +85,10 @@ async def test_setbroadcastmadeforkids_case_insensitive_Yes():
     context = make_context(["Yes"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_setbroadcastmadeforkids(update, context)
 
@@ -101,10 +101,10 @@ async def test_setbroadcastmadeforkids_non_admin():
     context = make_context(["no"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=False)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=False)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_setbroadcastmadeforkids(update, context)
 
@@ -118,10 +118,10 @@ async def test_setbroadcastmadeforkids_no_args():
     context = make_context([])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_setbroadcastmadeforkids(update, context)
 
@@ -136,10 +136,10 @@ async def test_setbroadcastmadeforkids_invalid_arg():
     context = make_context(["maybe"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_setbroadcastmadeforkids(update, context)
 
@@ -154,10 +154,10 @@ async def test_setbroadcastmadeforkids_too_many_args():
     context = make_context(["no", "extra"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_setbroadcastmadeforkids(update, context)
 
@@ -172,10 +172,10 @@ async def test_setbroadcastmadeforkids_args_none():
     context = make_context(None)
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_setbroadcastmadeforkids(update, context)
 
@@ -190,10 +190,10 @@ async def test_setbroadcastmadeforkids_db_error():
     context = make_context(["no"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock(side_effect=RuntimeError("db fail"))),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock(side_effect=RuntimeError("db fail"))),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_setbroadcastmadeforkids(update, context)
 

@@ -31,10 +31,10 @@ async def test_setbroadcastprivacy_public_success():
     context = make_context(["public"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_setbroadcastprivacy(update, context)
 
@@ -50,10 +50,10 @@ async def test_setbroadcastprivacy_unlisted_success():
     context = make_context(["unlisted"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_setbroadcastprivacy(update, context)
 
@@ -69,10 +69,10 @@ async def test_setbroadcastprivacy_private_success():
     context = make_context(["private"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_setbroadcastprivacy(update, context)
 
@@ -88,10 +88,10 @@ async def test_setbroadcastprivacy_case_insensitive_PUBLIC():
     context = make_context(["PUBLIC"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_setbroadcastprivacy(update, context)
 
@@ -107,10 +107,10 @@ async def test_setbroadcastprivacy_case_insensitive_Unlisted():
     context = make_context(["Unlisted"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_setbroadcastprivacy(update, context)
 
@@ -126,10 +126,10 @@ async def test_setbroadcastprivacy_non_admin():
     context = make_context(["public"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=False)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=False)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_setbroadcastprivacy(update, context)
 
@@ -143,10 +143,10 @@ async def test_setbroadcastprivacy_no_args():
     context = make_context([])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_setbroadcastprivacy(update, context)
 
@@ -161,10 +161,10 @@ async def test_setbroadcastprivacy_too_many_args():
     context = make_context(["public", "extra"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_setbroadcastprivacy(update, context)
 
@@ -179,10 +179,10 @@ async def test_setbroadcastprivacy_args_none():
     context = make_context(None)
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_setbroadcastprivacy(update, context)
 
@@ -197,10 +197,10 @@ async def test_setbroadcastprivacy_invalid_arg():
     context = make_context(["hidden"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_setbroadcastprivacy(update, context)
 
@@ -215,10 +215,10 @@ async def test_setbroadcastprivacy_numeric_arg():
     context = make_context(["1"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_setbroadcastprivacy(update, context)
 
@@ -233,10 +233,10 @@ async def test_setbroadcastprivacy_db_error():
     context = make_context(["public"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock(side_effect=RuntimeError("db fail"))),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock(side_effect=RuntimeError("db fail"))),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_setbroadcastprivacy(update, context)
 

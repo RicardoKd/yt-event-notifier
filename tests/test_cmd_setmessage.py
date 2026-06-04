@@ -31,9 +31,9 @@ async def test_set_message_success_single_word():
     context = make_context(["1", "Hello!"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
     ):
         await cmd_set_message(update, context)
 
@@ -49,9 +49,9 @@ async def test_set_message_success_multi_word():
     context = make_context(["3", "Join", "us", "for", "the", "weekly", "stream!"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
     ):
         await cmd_set_message(update, context)
 
@@ -67,9 +67,9 @@ async def test_set_message_non_admin():
     context = make_context(["1", "Hello!"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=False)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=False)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
     ):
         await cmd_set_message(update, context)
 
@@ -83,9 +83,9 @@ async def test_set_message_no_args():
     context = make_context([])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
     ):
         await cmd_set_message(update, context)
 
@@ -100,9 +100,9 @@ async def test_set_message_args_none():
     context = make_context(None)
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
     ):
         await cmd_set_message(update, context)
 
@@ -117,9 +117,9 @@ async def test_set_message_only_slot_id_no_message():
     context = make_context(["1"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
     ):
         await cmd_set_message(update, context)
 
@@ -134,9 +134,9 @@ async def test_set_message_invalid_slot_id_string():
     context = make_context(["abc", "Hello!"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
     ):
         await cmd_set_message(update, context)
 
@@ -151,9 +151,9 @@ async def test_set_message_slot_id_zero():
     context = make_context(["0", "Hello!"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
     ):
         await cmd_set_message(update, context)
 
@@ -168,9 +168,9 @@ async def test_set_message_slot_id_negative():
     context = make_context(["-1", "Hello!"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
     ):
         await cmd_set_message(update, context)
 
@@ -185,9 +185,9 @@ async def test_set_message_slot_id_float_string():
     context = make_context(["1.5", "Hello!"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
     ):
         await cmd_set_message(update, context)
 
@@ -202,9 +202,9 @@ async def test_set_message_minimum_valid_slot_id():
     context = make_context(["1", "msg"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
     ):
         await cmd_set_message(update, context)
 
@@ -219,9 +219,9 @@ async def test_set_message_large_slot_id():
     context = make_context(["9999", "Some message"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.update_slot", new=AsyncMock()) as mock_update_slot,
     ):
         await cmd_set_message(update, context)
 
@@ -236,9 +236,9 @@ async def test_set_message_db_error():
     context = make_context(["1", "Hello!"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.update_slot", new=AsyncMock(side_effect=RuntimeError("db fail"))) as mock_update_slot,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.update_slot", new=AsyncMock(side_effect=RuntimeError("db fail"))) as mock_update_slot,
     ):
         await cmd_set_message(update, context)
 

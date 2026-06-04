@@ -33,10 +33,10 @@ async def test_set_reminder_integer_success():
     context = make_context(["2"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_reminder(update, context)
 
@@ -52,10 +52,10 @@ async def test_set_reminder_float_success():
     context = make_context(["0.5"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_reminder(update, context)
 
@@ -71,10 +71,10 @@ async def test_set_reminder_minimum_positive_value():
     context = make_context(["0.01"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_reminder(update, context)
 
@@ -89,10 +89,10 @@ async def test_set_reminder_large_value():
     context = make_context(["48"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()) as mock_upsert,
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_reminder(update, context)
 
@@ -109,10 +109,10 @@ async def test_set_reminder_non_admin():
     context = make_context(["1"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=False)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=False)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_reminder(update, context)
 
@@ -128,10 +128,10 @@ async def test_set_reminder_no_args():
     context = make_context([])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_reminder(update, context)
 
@@ -146,10 +146,10 @@ async def test_set_reminder_args_none():
     context = make_context(None)
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_reminder(update, context)
 
@@ -164,10 +164,10 @@ async def test_set_reminder_too_many_args():
     context = make_context(["1", "2"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_reminder(update, context)
 
@@ -182,10 +182,10 @@ async def test_set_reminder_non_numeric_arg():
     context = make_context(["abc"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_reminder(update, context)
 
@@ -200,10 +200,10 @@ async def test_set_reminder_zero():
     context = make_context(["0"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_reminder(update, context)
 
@@ -218,10 +218,10 @@ async def test_set_reminder_negative():
     context = make_context(["-1"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_reminder(update, context)
 
@@ -236,10 +236,10 @@ async def test_set_reminder_whitespace_arg():
     context = make_context(["  "])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock()),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock()),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_reminder(update, context)
 
@@ -256,10 +256,10 @@ async def test_set_reminder_db_error():
     context = make_context(["1"])
 
     with (
-        patch("src.bot.commands._require_admin", new=AsyncMock(return_value=True)),
-        patch("src.bot.commands.db_context", return_value=make_db_context_mock()),
-        patch("src.bot.commands.upsert_group", new=AsyncMock(side_effect=RuntimeError("db fail"))),
-        patch("src.bot.commands.update_group", new=AsyncMock()) as mock_update,
+        patch("backend.bot.commands._require_admin", new=AsyncMock(return_value=True)),
+        patch("backend.bot.commands.db_context", return_value=make_db_context_mock()),
+        patch("backend.bot.commands.upsert_group", new=AsyncMock(side_effect=RuntimeError("db fail"))),
+        patch("backend.bot.commands.update_group", new=AsyncMock()) as mock_update,
     ):
         await cmd_set_reminder(update, context)
 
