@@ -3,17 +3,17 @@ import json
 import logging
 from typing import Any
 
-from src.logging_config import setup_logging
+from backend.logging_config import setup_logging
 
 setup_logging()
 
 from telegram import Update
 from telegram.ext import Application
 
-from src.bot.commands import build_application
-from src.db.client import db_context
-from src.poller import run_poll
-from src.youtube.oauth import handle_oauth_callback
+from backend.bot.commands import build_application
+from backend.db.client import db_context
+from backend.poller import run_poll
+from backend.youtube.oauth import handle_oauth_callback
 
 logger = logging.getLogger(__name__)
 

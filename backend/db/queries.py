@@ -1,8 +1,6 @@
-from typing import Any, Iterable
+from typing import Any, Iterable, Mapping
 
-import aiosqlite
-
-from src.db.client import get_connection
+from backend.db.client import get_connection
 
 
 async def upsert_group(group_id: int) -> None:
@@ -11,16 +9,16 @@ async def upsert_group(group_id: int) -> None:
     await conn.commit()
 
 
-async def get_group(group_id: int) -> aiosqlite.Row | None:
+async def get_group(group_id: int) -> Mapping[str, Any] | None:
     conn = get_connection()
-    async with conn.execute("SELECT * FROM groups WHERE group_id = ?", (group_id,)) as cur:
-        return await cur.fetchone()
+    cur = await conn.execute("SELECT * FROM groups WHERE group_id = ?", (group_id,))
+    return await cur.fetchone()
 
 
-async def list_groups() -> Iterable[aiosqlite.Row]:
+async def list_groups() -> Iterable[Mapping[str, Any]]:
     conn = get_connection()
-    async with conn.execute("SELECT * FROM groups") as cur:
-        return await cur.fetchall()
+    cur = await conn.execute("SELECT * FROM groups")
+    return await cur.fetchall()
 
 
 async def update_group(group_id: int, **fields: Any) -> None:
@@ -45,16 +43,16 @@ async def add_slot(group_id: int, day_of_week: int, local_time: str, title_templ
     return cursor.lastrowid
 
 
-async def get_slot(slot_id: int) -> aiosqlite.Row | None:
+async def get_slot(slot_id: int) -> Mapping[str, Any] | None:
     conn = get_connection()
-    async with conn.execute("SELECT * FROM slots WHERE slot_id = ?", (slot_id,)) as cur:
-        return await cur.fetchone()
+    cur = await conn.execute("SELECT * FROM slots WHERE slot_id = ?", (slot_id,))
+    return await cur.fetchone()
 
 
-async def list_slots(group_id: int) -> Iterable[aiosqlite.Row]:
+async def list_slots(group_id: int) -> Iterable[Mapping[str, Any]]:
     conn = get_connection()
-    async with conn.execute("SELECT * FROM slots WHERE group_id = ?", (group_id,)) as cur:
-        return await cur.fetchall()
+    cur = await conn.execute("SELECT * FROM slots WHERE group_id = ?", (group_id,))
+    return await cur.fetchall()
 
 
 async def remove_slot(slot_id: int, group_id: int) -> None:
@@ -90,12 +88,12 @@ async def upsert_stream(
     await conn.commit()
 
 
-async def list_active_streams(group_id: int) -> Iterable[aiosqlite.Row]:
+async def list_active_streams(group_id: int) -> Iterable[Mapping[str, Any]]:
     conn = get_connection()
-    async with conn.execute(
+    cur = await conn.execute(
         "SELECT * FROM streams WHERE group_id = ? AND status != 'ended'", (group_id,)
-    ) as cur:
-        return await cur.fetchall()
+    )
+    return await cur.fetchall()
 
 
 async def update_stream(broadcast_id: str, **fields: Any) -> None:

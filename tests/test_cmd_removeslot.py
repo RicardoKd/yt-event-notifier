@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from src.bot.commands import cmd_remove_slot
+from backend.bot.commands import cmd_remove_slot
 
 
 def make_update(chat_id: int = 123456) -> MagicMock:

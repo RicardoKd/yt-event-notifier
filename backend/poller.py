@@ -1,7 +1,7 @@
 import asyncio
 import logging
 
-from src.db import queries
+from backend.db import queries
 
 logger = logging.getLogger(__name__)
 

@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from src.bot.commands import cmd_set_autocreate
+from backend.bot.commands import cmd_set_autocreate
 
 
 def make_update(chat_id: int = 123456) -> MagicMock:

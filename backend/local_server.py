@@ -7,9 +7,9 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-from src.bot.commands import build_application
-from src.db.client import db_context
-from src.youtube.oauth import handle_oauth_callback
+from backend.bot.commands import build_application
+from backend.db.client import db_context
+from backend.youtube.oauth import handle_oauth_callback
 
 logger = logging.getLogger(__name__)
 PORT = int(os.getenv("LOCAL_PORT", "8080"))
@@ -52,6 +52,6 @@ async def main() -> None:
 
 
 if __name__ == "__main__":
-    from src.logging_config import setup_logging
+    from backend.logging_config import setup_logging
     setup_logging()
     asyncio.run(main())

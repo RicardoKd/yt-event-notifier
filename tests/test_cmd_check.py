@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import AsyncMock, MagicMock, patch
 
-from src.bot.commands import cmd_check
+from backend.bot.commands import cmd_check
 
 CHAT_ID = 123456
 
