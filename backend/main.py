@@ -1,18 +1,19 @@
 import logging
 import os
+import sys
 from typing import Any
 
-from fastapi import FastAPI, HTTPException, Request, Response
+from fastapi import FastAPI, HTTPException, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from telegram import Update
 
-from .logging_config import setup_logging
-from .bot.commands import build_application
-from .db import queries
-from .db.client import db_context, set_db
-from .engine import run_polling_cycle
-from .youtube.oauth import build_auth_url, handle_oauth_callback
+from backend.logging_config import setup_logging
+from backend.bot.commands import build_application
+from backend.db import queries
+from backend.db.client import db_context, set_db
+from backend.engine import run_polling_cycle
+from backend.youtube.oauth import build_auth_url, handle_oauth_callback
 
 # Setup logging
 setup_logging(level=logging.INFO)
@@ -175,6 +176,63 @@ async def api_trigger_check(group_id: int):
     await run_polling_cycle(bot_app.bot, group_id=group_id)
     return {"status": "success"}
 
+async def async_main() -> None:
+    """Main entry point for local execution."""
+    import uvicorn
+    from dotenv import load_dotenv
+    from backend.db.client import LocalD1Binding
+    
+    profile = os.environ.get("APP_PROFILE", "dev").lower()
+    
+    if profile == "dev":
+        logger.info("Loading development profile...")
+        load_dotenv()
+        log_level = logging.DEBUG
+        
+        # Initialize local DB for development
+        db_path = os.environ.get("LOCAL_DB_PATH", "local_dev.db")
+        logger.info(f"Initializing local DB at {db_path}")
+        set_db(LocalD1Binding(db_path))
+    elif profile == "prod":
+        logger.info("Loading production profile...")
+        log_level = logging.INFO
+    else:
+        logger.error(f"Unknown profile '{profile}'. Exiting.")
+        sys.exit(1)
+
+    setup_logging(level=log_level)
+    logger.info("Starting application in %s mode", profile.upper())
+
+    token = os.environ.get("TELEGRAM_BOT_TOKEN")
+    if not token:
+        logger.error("TELEGRAM_BOT_TOKEN is not set. Exiting.")
+        sys.exit(1)
+
+    # Initialize bot and start polling in dev mode
+    if profile == "dev":
+        bot_app = get_bot_app()
+        logger.info("Starting Telegram bot polling...")
+        await bot_app.initialize()
+        await bot_app.start()
+        if bot_app.updater:
+            await bot_app.updater.start_polling()
+        
+    # Start web server
+    port = int(os.environ.get("LOCAL_PORT", 8080))
+    logger.info("Starting local web server on port %d", port)
+    
+    config = uvicorn.Config(app, host="0.0.0.0", port=port, log_level="info")
+    server = uvicorn.Server(config)
+    await server.serve()
+
+def main() -> None:
+    """Synchronous wrapper for async_main."""
+    import asyncio
+    try:
+        asyncio.run(async_main())
+    except KeyboardInterrupt:
+        pass
+
 # Cloudflare Workers entry points
 async def on_fetch(request, env):
     # Set the DB binding for the context
@@ -196,3 +254,6 @@ async def on_scheduled(event, env):
             
     bot_app = get_bot_app()
     await run_polling_cycle(bot_app.bot)
+
+if __name__ == "__main__":
+    main()

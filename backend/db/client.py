@@ -8,6 +8,47 @@ logger = logging.getLogger(__name__)
 # Context variable to hold the D1 database binding from Cloudflare
 _db_binding: ContextVar[Any] = ContextVar("db_binding")
 
+class LocalD1Binding:
+    """Mock D1 binding for local development using sqlite3."""
+    def __init__(self, db_path: str):
+        self.db_path = db_path
+        self._init_db()
+
+    def _init_db(self):
+        import sqlite3
+        from backend.db.schema import _CREATE_GROUPS, _CREATE_SLOTS, _CREATE_STREAMS
+        with sqlite3.connect(self.db_path) as conn:
+            conn.execute(_CREATE_GROUPS)
+            conn.execute(_CREATE_SLOTS)
+            conn.execute(_CREATE_STREAMS)
+
+    def prepare(self, sql: str):
+        return LocalD1Statement(self.db_path, sql)
+
+class LocalD1Statement:
+    def __init__(self, db_path: str, sql: str):
+        self.db_path = db_path
+        self.sql = sql
+        self.params = ()
+
+    def bind(self, *params: Any):
+        self.params = params
+        return self
+
+    async def all(self) -> dict[str, list[dict[str, Any]]]:
+        import sqlite3
+        with sqlite3.connect(self.db_path) as conn:
+            conn.row_factory = sqlite3.Row
+            rows = conn.execute(self.sql, self.params).fetchall()
+            return {"results": [dict(r) for r in rows]}
+
+    async def run(self) -> Any:
+        import sqlite3
+        with sqlite3.connect(self.db_path) as conn:
+            cursor = conn.execute(self.sql, self.params)
+            conn.commit()
+            return type("D1Result", (), {"meta": {"last_row_id": cursor.lastrowid}})()
+
 class D1Cursor:
     def __init__(self, result: Any):
         self._result = result

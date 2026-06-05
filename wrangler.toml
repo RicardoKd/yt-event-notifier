@@ -1,9 +1,7 @@
 name = "yt-event-notifier-backend"
-main = "main.py"
+main = "backend/main.py"
 compatibility_date = "2026-06-04"
-
-[flags]
-python_workers = true
+compatibility_flags = ["python_workers"]
 
 [[d1_databases]]
 binding = "yt_event_notifier_db"
