@@ -1,6 +1,6 @@
 from typing import Any, Iterable, Mapping
 
-from backend.db.client import get_connection
+from .client import get_connection
 
 
 async def upsert_group(group_id: int) -> None:

@@ -7,12 +7,12 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import RedirectResponse
 from telegram import Update
 
-from backend.logging_config import setup_logging
-from backend.bot.commands import build_application
-from backend.db import queries
-from backend.db.client import db_context, set_db
-from backend.engine import run_polling_cycle
-from backend.youtube.oauth import build_auth_url, handle_oauth_callback
+from .logging_config import setup_logging
+from .bot.commands import build_application
+from .db import queries
+from .db.client import db_context, set_db
+from .engine import run_polling_cycle
+from .youtube.oauth import build_auth_url, handle_oauth_callback
 
 # Setup logging
 setup_logging(level=logging.INFO)
@@ -178,21 +178,18 @@ async def api_trigger_check(group_id: int):
 # Cloudflare Workers entry points
 async def on_fetch(request, env):
     # Set the DB binding for the context
-    set_db(env.DB)
+    set_db(env.yt_event_notifier_db)
     # Patch os.environ with env vars from Cloudflare
     for key, value in env.items():
         if isinstance(value, str):
             os.environ[key] = value
     
-    import asgi_correlation_id # Optional, just to show how to use env
     # Using a simple ASGI adapter (FastAPI is ASGI)
-    from fastapi.testclient import TestClient # Not for production, use proper ASGI adapter
-    # In a real Cloudflare Python Worker, you'd use the provided ASGI wrapper
     # For now, we'll assume the environment handles the FastAPI app 'app'
     return await app(request.scope, request.receive, request.send)
 
 async def on_scheduled(event, env):
-    set_db(env.DB)
+    set_db(env.yt_event_notifier_db)
     for key, value in env.items():
         if isinstance(value, str):
             os.environ[key] = value

@@ -8,7 +8,7 @@ from google.auth.transport.requests import Request
 from google.oauth2.credentials import Credentials
 from google_auth_oauthlib.flow import Flow
 
-from backend.db import queries
+from ..db import queries
 
 logger = logging.getLogger(__name__)
 

@@ -6,8 +6,8 @@ from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from telegram import Update, InlineKeyboardMarkup, InlineKeyboardButton, WebAppInfo
 from telegram.ext import Application, CommandHandler, ContextTypes
 
-from backend.db.client import db_context
-from backend.db.queries import (
+from ..db.client import db_context
+from ..db.queries import (
     upsert_group,
     add_slot,
     list_slots,
@@ -17,8 +17,8 @@ from backend.db.queries import (
     update_slot,
     list_active_streams,
 )
-from backend.youtube.oauth import build_auth_url
-from backend.engine import run_polling_cycle
+from ..youtube.oauth import build_auth_url
+from ..engine import run_polling_cycle
 
 logger = logging.getLogger(__name__)
 
