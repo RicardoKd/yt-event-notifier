@@ -1,12 +1,9 @@
 name = "yt-event-notifier-backend"
-main = "backend/main.py"
-compatibility_date = "2024-05-02"
-compatibility_flags = ["python_workers"]
+main = "main.py"
+compatibility_date = "2026-06-04"
 
-# Python Workers configuration
-[python]
-# You can specify a requirements.txt if needed, but wrangler will try to infer from pyproject.toml
-# requirements_path = "requirements.txt"
+[flags]
+python_workers = true
 
 [[d1_databases]]
 binding = "yt_event_notifier_db"
@@ -21,3 +18,18 @@ database_id = "3e436fbb-c046-4933-93ef-3d7cc0674d06"
 
 [triggers]
 crons = ["*/15 * * * *"]
+
+[observability]
+enabled = false
+head_sampling_rate = 1
+
+[observability.logs]
+enabled = true
+head_sampling_rate = 1
+persist = true
+invocation_logs = true
+
+[observability.traces]
+enabled = false
+persist = true
+head_sampling_rate = 1
