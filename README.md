@@ -70,15 +70,15 @@ yt-event-notifier/
 │   ├── engine.py           # Core logic — stream check, reminders, live detection, cleanup
 │   ├── bot/                # Telegram bot command handlers
 │   ├── db/                 # D1 database client and queries
-│   └── youtube/            # YouTube API and OAuth integration
+│   ├── youtube/            # YouTube API and OAuth integration
+│   ├── wrangler.toml       # Cloudflare Worker configuration
+│   └── pyproject.toml      # Python dependencies
 ├── frontend/               # Cloudflare Pages (Vite/React)
 │   ├── src/
 │   │   ├── api/            # API client for the backend
 │   │   ├── components/     # UI components
 │   │   └── hooks/          # React hooks
 │   └── package.json
-├── wrangler.toml           # Cloudflare Worker configuration
-├── pyproject.toml          # Python dependencies
 ├── prd.md                  # Product Requirements Document
 ├── README.md
 └── LICENSE
@@ -105,12 +105,11 @@ Before starting setup, ensure you have access to the following:
    ```bash
    npx wrangler d1 create yt-event-notifier-db
    ```
-2. Note the `database_id` and update your `wrangler.toml`.
+2. Note the `database_id` and update your `backend/wrangler.toml`.
 3. Initialize the schema:
    ```bash
    npx wrangler d1 execute yt-event-notifier-db --file=backend/db/schema.sql
    ```
-   *(Note: You may need to export the schema from `backend/db/schema.py` to a SQL file first if it doesn't exist)*
 
 ### 2. Google Cloud & Telegram Setup
 
@@ -118,11 +117,24 @@ Follow the standard steps to create a Google Cloud Project with YouTube API enab
 
 ### 3. Deploy the Backend (Worker)
 
-1. Set secret environment variables in Cloudflare:
+#### Using Cloudflare Workers Builds (Recommended)
+1. In the Cloudflare Dashboard, go to **Workers & Pages → Import a repository**.
+2. Select your GitHub repo.
+3. In the build settings:
+   - **Root directory**: `backend`
+   - **Build command**: (Leave blank)
+   - **Deploy command**: `npx wrangler deploy`
+4. Set secret environment variables in Cloudflare:
    ```bash
    npx wrangler secret put TELEGRAM_BOT_TOKEN
    npx wrangler secret put GOOGLE_CLIENT_ID
    npx wrangler secret put GOOGLE_CLIENT_SECRET
+   ```
+
+#### Manual Deployment
+1. Navigate to the `backend` directory:
+   ```bash
+   cd backend
    ```
 2. Update `wrangler.toml` with your `GOOGLE_REDIRECT_URI` and other vars.
 3. Deploy:
